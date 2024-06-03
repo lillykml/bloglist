@@ -112,3 +112,33 @@ describe('favorite blog', () => {
     assert.deepStrictEqual(listHelper.favoriteBlog(blogList), expectedFavorite)
   })
 })
+
+describe('most blogs', () => {
+  test('returns an empty object for no blogs', () => {
+    assert.deepStrictEqual(listHelper.mostBlogs([]), {})
+  })
+
+  test('returns the correct author for a longer list', () => {
+    const expectedAuthor = {
+      author: "Robert C. Martin",
+      blogs: 3
+    }
+
+    assert.deepStrictEqual(listHelper.mostBlogs(blogList), expectedAuthor)
+  })
+})
+
+describe('most likes', () => {
+  test('returns an empty object for no blogs', () => {
+    assert.deepStrictEqual(listHelper.mostLikes([]), {})
+  })
+
+  test('returns the correct author and likesfor a longer list', () => {
+    const expectedAuthor = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    }
+
+    assert.deepStrictEqual(listHelper.mostLikes(blogList), expectedAuthor)
+  })
+})
