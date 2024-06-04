@@ -53,16 +53,23 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-test.only('blogs are returned as json', async () => {
+test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
 })
 
-test.only('correct number of blogs is returned', async () => {
+test('correct number of blogs is returned', async () => {
    const response = await api.get('/api/blogs')
    assert.strictEqual(response.body.length, initialBlogs.length)
+})
+
+test.only('id property is named correctly', async () => {
+    const response = await api.get('/api/blogs')
+    response.body.forEach(blog => {
+        assert(blog.hasOwnProperty('id'))
+    })
 })
 
 after(async () => {
