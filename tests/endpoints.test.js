@@ -139,6 +139,14 @@ test('Deleting a ressource works correctly', async() => {
     assert.strictEqual(blogsEnd.body.length, blogsBeginning.body.length-1)
 })
 
+test.only('Updating a ressource works', async() => {
+    const allBlogs = await api.get('/api/blogs')
+    const idToUpdate = allBlogs.body[0].id
+    const editedBlog = await api.put(`/api/blogs/${idToUpdate}`).send({likes: 10})
+    assert.strictEqual(editedBlog.body.likes, 10)
+    assert.strictEqual(editedBlog.body.id, idToUpdate)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
