@@ -1,4 +1,4 @@
-const { test, beforeEach, after } = require('node:test')
+const { test, beforeEach, after, describe } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -53,23 +53,50 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-test('blogs are returned as json', async () => {
-    await api
-      .get('/api/blogs')
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-})
-
-test('correct number of blogs is returned', async () => {
-   const response = await api.get('/api/blogs')
-   assert.strictEqual(response.body.length, initialBlogs.length)
-})
-
-test.only('id property is named correctly', async () => {
-    const response = await api.get('/api/blogs')
-    response.body.forEach(blog => {
-        assert(blog.hasOwnProperty('id'))
+describe('Get Requests', () => {
+    test('blogs are returned as json', async () => {
+        await api
+          .get('/api/blogs')
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
     })
+    
+    test('correct number of blogs is returned', async () => {
+       const response = await api.get('/api/blogs')
+       assert.strictEqual(response.body.length, initialBlogs.length)
+    })
+    
+    test('id property is named correctly', async () => {
+        const response = await api.get('/api/blogs')
+        response.body.forEach(blog => {
+            assert(blog.hasOwnProperty('id'))
+        })
+    })    
+})
+
+describe('Post Requests', () => {
+
+    test.only('New blog is added to the db', async () => {
+
+        const newBlog = {
+            title: "New Post is here",
+            author: "Michael Chan Jr.",
+            url: "https://reactpatterns.com/",
+            likes: 4,
+        }
+
+        await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/blogs')
+        assert.strictEqual(response.body.length, initialBlogs.length + 1)
+        const titles = response.body.map(r => r.title)
+        assert(titles.includes('New Post is here'))
+    })
+
 })
 
 after(async () => {
