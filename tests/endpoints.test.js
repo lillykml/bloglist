@@ -76,7 +76,7 @@ describe('Get Requests', () => {
 
 describe('Post Requests', () => {
 
-    test.only('New blog is added to the db', async () => {
+    test('New blog is added to the db', async () => {
 
         const newBlog = {
             title: "New Post is here",
@@ -97,6 +97,17 @@ describe('Post Requests', () => {
         assert(titles.includes('New Post is here'))
     })
 
+    test.only('Like property defaults to 0 if missing', async () => {
+        const newBlog = {
+            title: "New Post with no likes",
+            author: "Michael Chan Jr.",
+            url: "https://reactpatterns.com/",
+        }
+
+        const response = await api.post('/api/blogs').send(newBlog)
+        assert(response.body.hasOwnProperty('likes'))
+        assert.strictEqual(response.body.likes, 0)
+    })
 })
 
 after(async () => {
