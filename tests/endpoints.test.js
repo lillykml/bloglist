@@ -97,7 +97,7 @@ describe('Post Requests', () => {
         assert(titles.includes('New Post is here'))
     })
 
-    test.only('Like property defaults to 0 if missing', async () => {
+    test('Like property defaults to 0 if missing', async () => {
         const newBlog = {
             title: "New Post with no likes",
             author: "Michael Chan Jr.",
@@ -107,6 +107,28 @@ describe('Post Requests', () => {
         const response = await api.post('/api/blogs').send(newBlog)
         assert(response.body.hasOwnProperty('likes'))
         assert.strictEqual(response.body.likes, 0)
+    })
+
+    test.only('Missing blog title is rejected', async() => {
+        const newBlog = {
+            author: "Michael Chan Jr.",
+            url: "https://reactpatterns.com/",
+        }
+
+        await api.post('/api/blogs').send(newBlog).expect(400)
+        const response = await api.get('/api/blogs')
+        assert.strictEqual(response.body.length, initialBlogs.length)
+    })
+
+    test.only('Missing blog url is rejected', async() => {
+        const newBlog = {
+            title: "New Post with no URL",
+            author: "Michael Chan Jr.",
+        }
+
+        await api.post('/api/blogs').send(newBlog).expect(400)
+        const response = await api.get('/api/blogs')
+        assert.strictEqual(response.body.length, initialBlogs.length)
     })
 })
 
