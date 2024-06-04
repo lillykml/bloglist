@@ -84,7 +84,6 @@ describe('Post Requests', () => {
             url: "https://reactpatterns.com/",
             likes: 4,
         }
-
         await api
         .post('/api/blogs')
         .send(newBlog)
@@ -109,7 +108,7 @@ describe('Post Requests', () => {
         assert.strictEqual(response.body.likes, 0)
     })
 
-    test.only('Missing blog title is rejected', async() => {
+    test('Missing blog title is rejected', async() => {
         const newBlog = {
             author: "Michael Chan Jr.",
             url: "https://reactpatterns.com/",
@@ -120,7 +119,7 @@ describe('Post Requests', () => {
         assert.strictEqual(response.body.length, initialBlogs.length)
     })
 
-    test.only('Missing blog url is rejected', async() => {
+    test('Missing blog url is rejected', async() => {
         const newBlog = {
             title: "New Post with no URL",
             author: "Michael Chan Jr.",
@@ -132,6 +131,14 @@ describe('Post Requests', () => {
     })
 })
 
+test('Deleting a ressource works correctly', async() => {
+    const blogsBeginning = await api.get('/api/blogs')
+    const idToDelete = blogsBeginning.body[0].id
+    await api.delete(`/api/blogs/${idToDelete}`).expect(204)
+    const blogsEnd = await api.get('/api/blogs')
+    assert.strictEqual(blogsEnd.body.length, blogsBeginning.body.length-1)
+})
+
 after(async () => {
     await mongoose.connection.close()
-  })
+})
