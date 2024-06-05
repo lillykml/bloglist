@@ -10,6 +10,10 @@ const errorHandler = (error, req, res, next) => {
         return res.status(404).send({error: 'malformatted id'})
     } else if (error.name === 'ValidationError') {
         return res.status(400).json({error: error.message})
+    } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error collection')) {
+        return res.status(400).json({ error: error.message})
+    } else if (error.message.includes('Password must be at least 3 characters long')) {
+        return res.status(400).json({error: error.message})
     }
     next(error)
 }
