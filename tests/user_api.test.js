@@ -22,7 +22,7 @@ describe('One user in the db', () => {
         await user.save()
     })
 
-    test.only('creation succeeds with a fresh username', async () => {
+    test('creation succeeds with a fresh username', async () => {
         const usersAtStart = await helpers.usersInDb()
     
         const newUser = {
@@ -44,7 +44,7 @@ describe('One user in the db', () => {
         assert(usernames.includes(newUser.username))
       })
 
-      test.only('creation fails for missing username', async()=>{
+      test('creation fails for missing username', async()=>{
         const usersAtStart = await helpers.usersInDb()
 
         const newUser = {
@@ -61,7 +61,7 @@ describe('One user in the db', () => {
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
       })
 
-      test.only('creation fails for invalid username', async()=>{
+      test('creation fails for invalid username', async()=>{
         const usersAtStart = await helpers.usersInDb()
 
         const newUser = {
@@ -97,7 +97,7 @@ describe('One user in the db', () => {
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
       })
 
-      test.only('creation fails for missing password', async()=>{
+      test('creation fails for missing password', async()=>{
         const usersAtStart = await helpers.usersInDb()
 
         const newUser = {
@@ -114,7 +114,7 @@ describe('One user in the db', () => {
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
       })
 
-      test.only('creation fails for too-short password', async()=>{
+      test('creation fails for too-short password', async()=>{
         const usersAtStart = await helpers.usersInDb()
 
         const newUser = {
