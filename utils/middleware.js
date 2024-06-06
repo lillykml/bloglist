@@ -16,6 +16,8 @@ const errorHandler = (error, req, res, next) => {
         return res.status(400).json({error: error.message})
     } else if (error.name ===  'JsonWebTokenError') {
         return res.status(401).json({ error: 'token invalid' })
+      } else if (error.name === 'TypeError' && error.message.includes('Cannot read properties of null')) {
+        return res.status(400).json({error: "Blog has already been deleted"})
       }
     next(error)
 }
