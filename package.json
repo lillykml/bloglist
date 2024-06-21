@@ -8,7 +8,8 @@
     "test": "cross-env NODE_ENV=test node --test",
     "test-only": "cross-env NODE_ENV=test node --test --test-only",
     "build:ui": "rm -rf dist && cd ../bloglist-frontend && npm run build && cp -r dist ../bloglist",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "",
   "license": "ISC",
