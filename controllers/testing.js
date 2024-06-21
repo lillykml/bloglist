@@ -8,4 +8,4 @@ testingRouter.post('/reset', async(request, response) => {
     response.status(204).end()
 })
 
-export default testingRouter
+module.exports = testingRouter
